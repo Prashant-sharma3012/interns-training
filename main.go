@@ -4,13 +4,13 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/interns-training/helpers"
 	"github.com/interns-training/server"
-	log "github.com/sirupsen/logrus"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
 
 	// setup logger
-	logger := log.New()
+	logger := logrus.New()
 
 	logger.Info("Setting things up")
 	logger.Info("Load Config")
@@ -24,6 +24,6 @@ func main() {
 	srv := server.InitServer(config, logger, r)
 
 	logger.Info("Listening on port " + srv.Config.Port)
-	
-	log.Fatal(srv.Server.ListenAndServe())
+
+	logger.Fatal(srv.Server.ListenAndServe())
 }

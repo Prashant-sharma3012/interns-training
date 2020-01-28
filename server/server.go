@@ -19,8 +19,18 @@ type Server struct {
 }
 
 func InitServer(cnf *models.Config, logger *logrus.Logger, handler *mux.Router) *Server {
+
+	logger.Info("Connecting to DB")
+	repo, err := repository.Connect(cnf.DB)
+
+	if err != nil {
+		logger.Panicf(err)
+	}
+
+	logger.Info("Creating Server")
+
 	srv := &Server{
-		Repo:    &repository.Repository{},
+		Repo:    repo,
 		Logger:  logger,
 		Config:  cnf,
 		Handler: handler,
@@ -33,7 +43,7 @@ func InitServer(cnf *models.Config, logger *logrus.Logger, handler *mux.Router) 
 		},
 	}
 
-	logger.Info("Created Server")
+	logger.Info("Server Created")
 	srv.InitRoutes()
 
 	return srv
