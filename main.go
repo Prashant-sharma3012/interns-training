@@ -1,9 +1,6 @@
 package main
 
 import (
-	"net/http"
-	"time"
-
 	"github.com/gorilla/mux"
 	"github.com/interns-training/helpers"
 	"github.com/interns-training/server"
@@ -21,24 +18,12 @@ func main() {
 	//load config
 	config := helpers.LoadConfig()
 
-	srv := &server.Server{}
-
 	logger.Info("Creating end points")
 	// setup routes
 	r := mux.NewRouter()
-	r.HandleFunc("/", srv.RootHandler)
+	srv := server.InitServer(config, logger, r)
 
-	logger.Info("creating server")
-	// listen and serve
-	s := &http.Server{
-		Addr:           config.Port,
-		Handler:        r,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
-		MaxHeaderBytes: 1 << 20,
-	}
-
-	log.Fatal(s.ListenAndServe())
-
-	logger.Info("Listening on port 3000")
+	logger.Info("Listening on port " + srv.Config.Port)
+	
+	log.Fatal(srv.Server.ListenAndServe())
 }
