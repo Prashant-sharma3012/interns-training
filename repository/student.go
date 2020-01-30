@@ -49,7 +49,7 @@ func (s *StudentRepo) List() ([]models.Student, error) {
 	return students, nil
 }
 
-func (s *StudentRepo) getStudentById(studentId string) (models.Student, error) {
+func (s *StudentRepo) GetStudentById(studentId string) (models.Student, error) {
 
 	collection := DB.Collection("student")
 
@@ -64,7 +64,7 @@ func (s *StudentRepo) getStudentById(studentId string) (models.Student, error) {
 	return student, nil
 }
 
-func (s *StudentRepo) Add(student models.Student) ([]byte, error) {
+func (s *StudentRepo) Add(student *models.Student) ([]byte, error) {
 
 	ctx := context.Background()
 	collection := DB.Collection("student")
@@ -77,7 +77,7 @@ func (s *StudentRepo) Add(student models.Student) ([]byte, error) {
 	return []byte(res.InsertedID.(primitive.ObjectID).Hex()), nil
 }
 
-func (s *StudentRepo) Update(student models.Student) ([]byte, error) {
+func (s *StudentRepo) Update(student *models.Student) ([]byte, error) {
 
 	ctx := context.Background()
 	collection := DB.Collection("student")
@@ -91,12 +91,12 @@ func (s *StudentRepo) Update(student models.Student) ([]byte, error) {
 	return []byte(student.Id + "updated successfully"), nil
 }
 
-func (s *StudentRepo) Delete(student models.Student) ([]byte, error) {
+func (s *StudentRepo) Delete(studentId string) ([]byte, error) {
 
 	ctx := context.Background()
 	collection := DB.Collection("student")
 
-	res, err := collection.DeleteOne(ctx, bson.D{{"id", student.Id}})
+	res, err := collection.DeleteOne(ctx, bson.D{{"id", studentId}})
 
 	if err != nil {
 		return nil, err

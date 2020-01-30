@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/gorilla/mux"
+	"github.com/interns-training/api"
 	"github.com/interns-training/helpers"
 	"github.com/interns-training/server"
 	"github.com/sirupsen/logrus"
@@ -22,6 +23,8 @@ func main() {
 	// setup routes
 	r := mux.NewRouter()
 	srv := server.InitServer(config, logger, r)
+
+	api.Init(srv)
 
 	logger.Info("Listening on port " + srv.Config.Port)
 

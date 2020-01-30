@@ -2,6 +2,7 @@ package models
 
 import (
 	"encoding/json"
+	"io"
 )
 
 type Student struct {
@@ -13,7 +14,7 @@ type Student struct {
 	Country string `json:"country"`
 }
 
-func (s *Student) toJson() ([]byte, error) {
+func (s *Student) ToJson() ([]byte, error) {
 	data, err := json.Marshal(s)
 
 	if err != nil {
@@ -24,6 +25,14 @@ func (s *Student) toJson() ([]byte, error) {
 
 }
 
-func (s *Student) fromJson(data []byte) error {
-	return json.Unmarshal(data, s)
+func FromJson(data io.Reader) *Student {
+	var student *Student
+	json.NewDecoder(data).Decode(&student)
+	return student
+}
+
+func FromBytes(data []byte) *Student {
+	student := &Student{}
+	json.Unmarshal(data, student)
+	return student
 }

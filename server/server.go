@@ -24,7 +24,7 @@ func InitServer(cnf *models.Config, logger *logrus.Logger, handler *mux.Router) 
 	repo, err := repository.Connect(cnf.DB)
 
 	if err != nil {
-		logger.Panicf(err)
+		logger.Error(err)
 	}
 
 	logger.Info("Creating Server")
@@ -44,11 +44,6 @@ func InitServer(cnf *models.Config, logger *logrus.Logger, handler *mux.Router) 
 	}
 
 	logger.Info("Server Created")
-	srv.InitRoutes()
 
 	return srv
-}
-
-func (s *Server) InitRoutes() {
-	s.Handler.HandleFunc("/", s.RootHandler)
 }
