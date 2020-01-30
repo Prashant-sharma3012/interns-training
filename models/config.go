@@ -1,7 +1,7 @@
 package models
 
 type Config struct {
-	DB   string
-	Port string
-	Host string
+	DB   string `json: "db"`
+	Port string `json: "port"`
+	Host string `json: "host"`
 }

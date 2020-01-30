@@ -13,6 +13,8 @@ type Repository struct {
 	Student *StudentRepo
 }
 
+var DB *mongo.Database
+
 func Connect(dbUrl string) (*Repository, error) {
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(dbUrl))
@@ -30,7 +32,9 @@ func Connect(dbUrl string) (*Repository, error) {
 
 	defer cancel()
 
-	conn := client.Database("student")
+	conn := client.Database("interns")
+
+	DB = conn
 
 	repo := &Repository{
 		DB:      conn,
