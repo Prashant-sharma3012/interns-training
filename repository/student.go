@@ -36,14 +36,14 @@ func (s *StudentRepo) List() ([]models.Student, error) {
 
 	for studentCur.Next(nil) {
 
-		student := models.Student{}
+		student := &models.Student{}
 		err := studentCur.Decode(student)
 
 		if err != nil {
 			log.Fatal("Decode error ", err)
 		}
 
-		students = append(students, student)
+		students = append(students, *student)
 	}
 
 	return students, nil
